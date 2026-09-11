@@ -1,0 +1,75 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+{% if post %}
+    <h1>Edit Post</h1>
+{% else %}
+    <h1>Create New Post</h1>
+{% endif %}
+
+
+<form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <label>Title</label>
+
+    <input
+        type="text"
+        name="title"
+        value="{{ post.title|default:'' }}"
+        required
+    >
+
+
+    <label>Content</label>
+
+    <textarea
+        name="content"
+        rows="10"
+        required
+    >{{ post.content|default:'' }}</textarea>
+
+
+    <label>Category</label>
+
+    <select name="category">
+
+        <option value="">
+            Select Category
+        </option>
+
+        {% for category in categories %}
+
+        <option
+            value="{{ category.id }}"
+            {% if post.category.id == category.id %}
+                selected
+            {% endif %}
+        >
+
+            {{ category.name }}
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+
+    <label>Image</label>
+
+    <input
+        type="file"
+        name="image"
+    >
+
+
+    <button type="submit">
+        Save Post
+    </button>
+
+</form>
+
+{% endblock %}
