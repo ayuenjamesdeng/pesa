@@ -26,7 +26,16 @@ def home(request):
         "query": query,
     }
 
-    return render(request, "blog/home.html", context)
+    return render(request, "home.html", context)
+
+
+def blogs(request):
+    posts = Post.objects.all().order_by("-created_at")
+    return render(request, "home.html", {"posts": posts, "categories": Category.objects.all()})
+
+
+def get_started(request):
+    return redirect("register")
 
 
 @login_required
